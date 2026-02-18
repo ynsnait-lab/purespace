@@ -7,7 +7,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700;800&display=swap');
         
         :root {
             --pure-blue: #0ea5e9;
@@ -16,259 +16,356 @@
 
         body { 
             font-family: 'Plus Jakarta Sans', sans-serif; 
-            background-color: #f8fafc; 
+            background-color: #ffffff; 
             color: #1e293b;
             scroll-behavior: smooth; 
         }
 
-        /* Effets de flou et transparence */
-        .glass-card { 
-            background: rgba(255, 255, 255, 0.7); 
-            backdrop-filter: blur(10px); 
-            border: 1px solid rgba(255, 255, 255, 0.2); 
+        .glass-header {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .hero-mesh {
+            background-color: #ffffff;
+            background-image: radial-gradient(at 0% 0%, rgba(14, 165, 233, 0.05) 0px, transparent 50%),
+                              radial-gradient(at 100% 100%, rgba(14, 165, 233, 0.05) 0px, transparent 50%);
         }
 
         .audio-card {
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .audio-card.active {
-            border-color: var(--pure-blue);
-            box-shadow: 0 20px 25px -5px rgba(14, 165, 233, 0.2);
-            transform: scale(1.02);
-            background: rgba(14, 165, 233, 0.05);
-        }
-
-        /* Animation des ondes sonores */
-        .wave-animation {
-            display: flex;
-            align-items: center;
-            gap: 3px;
-            height: 30px;
+            transform: translateY(-10px);
+            box-shadow: 0 30px 60px -12px rgba(14, 165, 233, 0.25);
         }
 
         .wave-bar {
-            width: 3px;
-            height: 100%;
+            width: 4px;
             background-color: var(--pure-blue);
-            border-radius: 50px;
-            animation: wave 1s ease-in-out infinite;
+            border-radius: 4px;
+            animation: wave 1.2s ease-in-out infinite;
         }
 
         @keyframes wave {
-            0%, 100% { height: 8px; }
-            50% { height: 30px; }
+            0%, 100% { height: 4px; }
+            50% { height: 32px; }
         }
 
-        .hero-gradient {
-            background: radial-gradient(circle at top right, rgba(14, 165, 233, 0.1), transparent);
+        .nav-link {
+            position: relative;
+        }
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--pure-blue);
+            transition: width 0.3s ease;
+        }
+        .nav-link:hover::after {
+            width: 100%;
         }
 
-        .btn-primary {
-            background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%);
-            transition: all 0.3s ease;
+        .section-reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 1s ease-out;
         }
-
-        .btn-primary:hover {
-            box-shadow: 0 10px 15px -3px rgba(14, 165, 233, 0.4);
-            transform: translateY(-2px);
+        .section-reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
         }
     </style>
 </head>
-<body class="overflow-x-hidden text-slate-900">
+<body class="overflow-x-hidden selection:bg-sky-100 selection:text-sky-900">
 
     <!-- NAVIGATION -->
-    <nav class="fixed top-0 w-full z-50 bg-white/80 backdrop-blur-md h-20 flex items-center px-6 md:px-12 justify-between border-b border-slate-100">
-        <div class="flex items-center gap-3">
-            <div class="w-10 h-10 bg-sky-600 rounded-xl flex items-center justify-center text-white shadow-lg shadow-sky-600/20">
+    <nav class="fixed top-0 w-full z-50 glass-header h-20 flex items-center px-6 md:px-12 justify-between">
+        <div class="flex items-center gap-3 group cursor-pointer">
+            <div class="w-10 h-10 bg-slate-900 rounded-xl flex items-center justify-center text-white transition-transform group-hover:rotate-12">
                 <i class="fas fa-headset text-xl"></i>
             </div>
-            <span class="text-xl font-extrabold tracking-tight text-slate-900 uppercase">Pure<span class="text-sky-600">Space</span></span>
+            <span class="text-xl font-extrabold tracking-tighter text-slate-900 uppercase">Pure<span class="text-sky-600">Space</span></span>
         </div>
-        <div class="hidden md:flex gap-10 items-center text-sm font-semibold text-slate-600">
-            <a href="#concept" class="hover:text-sky-600 transition-colors">Concept</a>
-            <a href="#experience" class="hover:text-sky-600 transition-colors">Expérience</a>
-            <a href="#technologie" class="hover:text-sky-600 transition-colors">Technologie</a>
-            <div class="h-6 w-px bg-slate-200"></div>
-            <span class="text-[10px] bg-sky-50 px-3 py-1 rounded-full text-sky-600 font-bold uppercase tracking-wider">YDays Ynov Bordeaux</span>
+        
+        <div class="hidden md:flex gap-10 items-center text-sm font-bold text-slate-500">
+            <a href="#concept" class="nav-link hover:text-slate-900 transition-colors">Concept</a>
+            <a href="#experience" class="nav-link hover:text-slate-900 transition-colors">Expérience</a>
+            <a href="#technologie" class="nav-link hover:text-slate-900 transition-colors">Technologie</a>
+            <a href="#subvention" class="nav-link hover:text-slate-900 transition-colors">Aides</a>
         </div>
-        <button class="btn-primary text-white px-6 py-2.5 rounded-full text-sm font-bold shadow-lg shadow-sky-600/20">Commander</button>
+
+        <div class="flex items-center gap-6">
+            <span class="hidden lg:block text-[10px] bg-slate-100 px-3 py-1 rounded-full text-slate-500 font-bold uppercase tracking-wider">YDays Ynov Bordeaux</span>
+            <button class="bg-sky-600 hover:bg-sky-700 text-white px-6 py-2.5 rounded-full text-sm font-bold shadow-lg shadow-sky-600/20 transition-all active:scale-95">
+                Commander
+            </button>
+        </div>
     </nav>
 
-    <!-- SECTION HÉRO -->
-    <header class="relative pt-48 pb-24 px-6 hero-gradient overflow-hidden">
-        <div class="max-w-7xl mx-auto grid md:grid-cols-2 gap-16 items-center">
-            <div>
-                <span class="inline-block px-4 py-1.5 mb-6 rounded-full bg-sky-50 text-sky-600 text-[10px] font-bold uppercase tracking-widest border border-sky-100">
-                    Projet YDays — Innovation Auditive 2026
-                </span>
-                <h1 class="text-5xl md:text-7xl font-[800] text-slate-900 mb-8 leading-[1.1] tracking-tight">
-                    Ne criez plus pour vous faire <span class="text-sky-600">entendre.</span>
+    <!-- HERO SECTION -->
+    <header class="relative pt-40 pb-32 px-6 hero-mesh">
+        <div class="max-w-7xl mx-auto grid lg:grid-cols-2 gap-20 items-center">
+            <div class="space-y-8">
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-sky-50 border border-sky-100">
+                    <span class="relative flex h-2 w-2">
+                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-sky-400 opacity-75"></span>
+                        <span class="relative inline-flex rounded-full h-2 w-2 bg-sky-500"></span>
+                    </span>
+                    <span class="text-[10px] font-bold text-sky-600 uppercase tracking-widest">Innovation YDays 2026</span>
+                </div>
+                
+                <h1 class="text-6xl md:text-8xl font-[800] text-slate-900 leading-[0.95] tracking-tight">
+                    Le silence <br/><span class="text-sky-600">intelligent.</span>
                 </h1>
-                <p class="text-slate-500 text-lg md:text-xl max-w-lg mb-10 leading-relaxed font-light">
-                    PureSpace révolutionne la protection auditive industrielle. Un casque intelligent qui filtre le bruit tout en laissant passer la voix humaine.
+                
+                <p class="text-slate-500 text-lg md:text-xl max-w-lg leading-relaxed font-medium">
+                    PureSpace révolutionne le travail en milieu bruyant. Une protection hybride qui neutralise le vacarme industriel tout en isolant la clarté de la voix humaine.
                 </p>
-                <div class="flex flex-wrap gap-4">
-                    <button class="btn-primary text-white px-8 py-4 rounded-2xl font-bold flex items-center gap-3">
-                        Voir la technologie <i class="fas fa-arrow-right text-sm"></i>
-                    </button>
-                    <div class="flex items-center gap-3 px-6 py-4 glass-card border border-slate-200 rounded-2xl">
-                        <i class="fas fa-shield-alt text-sky-600"></i>
-                        <span class="text-sm font-bold text-slate-700">Norme CE EN 352-1</span>
+                
+                <div class="flex flex-wrap gap-4 pt-4">
+                    <a href="#experience" class="bg-slate-900 hover:bg-slate-800 text-white px-8 py-4 rounded-2xl font-bold flex items-center gap-3 transition-all shadow-xl active:scale-95">
+                        Essayer maintenant <i class="fas fa-play-circle text-lg"></i>
+                    </a>
+                    <div class="flex items-center gap-3 px-6 py-4 border border-slate-200 rounded-2xl bg-white shadow-sm">
+                        <i class="fas fa-shield-halved text-sky-600 text-xl"></i>
+                        <span class="text-sm font-bold text-slate-700">Norme Industrielle EN 352</span>
                     </div>
                 </div>
             </div>
             
-            <div class="relative">
-                <!-- Décoration de fond -->
-                <div class="absolute -top-20 -right-20 w-64 h-64 bg-sky-200 rounded-full blur-3xl opacity-30"></div>
-                
-                <div class="relative bg-white p-10 rounded-[3.5rem] shadow-2xl border border-slate-100">
-                    <div class="aspect-square bg-slate-50 rounded-[2.5rem] flex items-center justify-center overflow-hidden border border-slate-100">
-                        <i class="fas fa-headset text-[120px] text-slate-200 animate-pulse"></i>
+            <div class="relative group">
+                <div class="absolute -inset-10 bg-sky-200/20 blur-[100px] rounded-full"></div>
+                <div class="relative bg-slate-50 p-12 rounded-[4rem] border border-slate-100 shadow-inner">
+                    <div class="aspect-square bg-white rounded-[3rem] shadow-2xl flex items-center justify-center overflow-hidden transition-transform duration-700 group-hover:scale-105">
+                        <!--  -->
+                        <i class="fas fa-headset text-[140px] text-slate-100 group-hover:text-sky-100 transition-colors"></i>
                     </div>
                     
-                    <div class="grid grid-cols-2 gap-8 mt-10">
-                        <div class="space-y-1">
-                            <span class="text-[9px] font-bold text-slate-400 uppercase tracking-widest">Autonomie</span>
-                            <p class="text-md font-bold text-slate-800">24h Non-Stop</p>
-                        </div>
-                        <div class="space-y-1 text-right">
-                            <span class="text-[9px] font-bold text-sky-500 uppercase tracking-widest">Subvention État</span>
-                            <p class="text-md font-bold text-slate-800">Éligible à 70%</p>
-                        </div>
+                    <div class="absolute -right-8 top-1/4 bg-white p-6 rounded-3xl shadow-xl border border-slate-50 max-w-[180px] animate-bounce-slow">
+                        <i class="fas fa-microphone-lines text-sky-600 text-2xl mb-2"></i>
+                        <p class="text-xs font-extrabold text-slate-800">Filtre Vocal <br/>Actif</p>
                     </div>
                 </div>
             </div>
         </div>
     </header>
 
-    <!-- COMPARATEUR AUDIO (EXPÉRIENCE) -->
-    <section id="experience" class="py-32 bg-slate-950 text-white overflow-hidden relative">
-        <div class="max-w-7xl mx-auto px-6 relative z-10">
+    <!-- SECTION CONCEPT (Nouveau) -->
+    <section id="concept" class="py-32 px-6 bg-slate-50 section-reveal">
+        <div class="max-w-7xl mx-auto">
+            <div class="grid lg:grid-cols-2 gap-20 items-center">
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="space-y-4">
+                        <div class="h-48 rounded-3xl bg-sky-600 flex items-center justify-center text-white text-3xl">
+                            <i class="fas fa-users-gear"></i>
+                        </div>
+                        <div class="h-64 rounded-3xl bg-white border border-slate-200 p-8 flex flex-col justify-end">
+                            <span class="text-4xl font-black text-sky-600 mb-2">+24h</span>
+                            <p class="text-xs font-bold text-slate-400 uppercase tracking-widest">Autonomie</p>
+                        </div>
+                    </div>
+                    <div class="space-y-4 pt-8">
+                        <div class="h-64 rounded-3xl bg-slate-900 p-8 flex flex-col justify-start">
+                            <i class="fas fa-quote-left text-sky-600 text-2xl mb-4"></i>
+                            <p class="text-white text-sm font-medium leading-relaxed italic">"Plus besoin de crier pour donner une consigne de sécurité."</p>
+                        </div>
+                        <div class="h-48 rounded-3xl bg-sky-100 border border-sky-200 flex items-center justify-center">
+                            <i class="fas fa-walkie-talkie text-sky-600 text-3xl"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="space-y-8">
+                    <h2 class="text-4xl md:text-5xl font-extrabold tracking-tight text-slate-900 leading-tight">
+                        Pourquoi <span class="text-sky-600">PureSpace ?</span>
+                    </h2>
+                    <p class="text-slate-500 text-lg leading-relaxed">
+                        Le projet est né d'un constat simple sur les chantiers : le bruit tue la communication. En collaboration avec <b>Ynov Bordeaux Campus</b>, nous avons développé un casque hybride qui combine la robustesse des protections 3M avec une intelligence artificielle de traitement du signal.
+                    </p>
+                    <ul class="space-y-4">
+                        <li class="flex items-center gap-4 text-slate-700 font-bold">
+                            <div class="w-6 h-6 rounded-full bg-sky-600 flex items-center justify-center text-white text-[10px]">
+                                <i class="fas fa-check"></i>
+                            </div>
+                            Protection Passive Haute Densité
+                        </li>
+                        <li class="flex items-center gap-4 text-slate-700 font-bold">
+                            <div class="w-6 h-6 rounded-full bg-sky-600 flex items-center justify-center text-white text-[10px]">
+                                <i class="fas fa-check"></i>
+                            </div>
+                            Réduction Active de Bruit (ANC)
+                        </li>
+                        <li class="flex items-center gap-4 text-slate-700 font-bold">
+                            <div class="w-6 h-6 rounded-full bg-sky-600 flex items-center justify-center text-white text-[10px]">
+                                <i class="fas fa-check"></i>
+                            </div>
+                            Talkie-Walkie crypté intégré
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- EXPERIENCE SECTION -->
+    <section id="experience" class="py-32 px-6 bg-slate-900 text-white relative overflow-hidden section-reveal">
+        <div class="absolute inset-0 opacity-10">
+            <div class="absolute top-0 left-0 w-full h-full" style="background-image: radial-gradient(#0ea5e9 1px, transparent 1px); background-size: 40px 40px;"></div>
+        </div>
+
+        <div class="max-w-7xl mx-auto relative z-10">
             <div class="text-center mb-24">
-                <span class="text-sky-500 font-bold uppercase tracking-widest text-xs">Le test du silence</span>
-                <h2 class="text-4xl md:text-6xl font-extrabold mt-4 mb-6 tracking-tight">Vivez la différence PureSpace</h2>
-                <p class="text-slate-400 max-w-2xl mx-auto font-light">
-                    Comparez l'ambiance sonore d'un chantier traditionnel avec la clarté offerte par notre technologie de filtrage.
+                <span class="text-sky-500 font-bold uppercase tracking-widest text-xs">Test Audio Immersif</span>
+                <h2 class="text-5xl md:text-7xl font-extrabold mt-4 mb-6 tracking-tight">Le choc sonore.</h2>
+                <p class="text-slate-400 max-w-2xl mx-auto font-medium text-lg">
+                    Enclenchez le filtre PureSpace et ressentez instantanément la différence.
                 </p>
             </div>
 
-            <div class="grid md:grid-cols-2 gap-10">
+            <div class="grid md:grid-cols-2 gap-12">
                 <!-- Sans le casque -->
-                <div id="card-raw" class="audio-card p-12 rounded-[3rem] bg-white/5 border border-white/10 flex flex-col items-center text-center group cursor-pointer" onclick="playAudio('raw')">
-                    <div class="w-24 h-24 rounded-full bg-red-500/10 flex items-center justify-center mb-10 group-hover:bg-red-500/20 transition-colors">
-                        <i id="icon-raw" class="fas fa-volume-xmark text-red-500 text-4xl"></i>
+                <div id="card-raw" class="audio-card p-12 rounded-[3.5rem] bg-white/5 border border-white/10 flex flex-col items-center text-center group cursor-pointer" onclick="playAudio('raw')">
+                    <div class="w-24 h-24 rounded-full bg-red-500/10 flex items-center justify-center mb-10 group-hover:scale-110 transition-transform">
+                        <i id="icon-raw" class="fas fa-volume-high text-red-500 text-4xl"></i>
                     </div>
-                    <h3 class="text-3xl font-bold mb-6">Environnement Brut</h3>
-                    <p class="text-slate-400 text-sm mb-10 leading-relaxed max-w-xs">
-                        Chaos sonore : marteaux-piqueurs, machines et collègues obligés de crier. Risque de surdité et stress accru.
-                    </p>
-                    <div class="mt-auto w-full py-5 rounded-2xl bg-white/5 border border-white/5 font-bold text-[10px] uppercase tracking-[0.2em]">
-                        Activer le bruit ambiant
-                    </div>
+                    <h3 class="text-3xl font-black mb-6">Chantier Brut</h3>
+                    <p class="text-slate-400 mb-12 max-w-xs mx-auto">Chaos acoustique. Communication impossible sans hurler. Fatigue auditive immédiate.</p>
+                    
+                    <button class="mt-auto bg-white/10 hover:bg-white/20 text-white px-8 py-4 rounded-2xl font-bold uppercase text-[10px] tracking-widest transition-all">Activer le bruit</button>
                     <audio id="audio-raw" src="chantier.mp3" preload="auto"></audio>
                 </div>
 
                 <!-- Avec PureSpace -->
-                <div id="card-pure" class="audio-card p-12 rounded-[3rem] bg-sky-600/10 border border-sky-500/20 flex flex-col items-center text-center group cursor-pointer" onclick="playAudio('pure')">
-                    <div class="w-24 h-24 rounded-full bg-sky-500/20 flex items-center justify-center mb-10 group-hover:bg-sky-500/30 transition-colors shadow-lg shadow-sky-500/20">
-                        <i id="icon-pure" class="fas fa-play text-sky-400 text-3xl ml-2"></i>
+                <div id="card-pure" class="audio-card p-12 rounded-[3.5rem] bg-sky-600/10 border border-sky-500/20 flex flex-col items-center text-center group cursor-pointer" onclick="playAudio('pure')">
+                    <div class="w-24 h-24 rounded-full bg-sky-500/20 flex items-center justify-center mb-10 shadow-lg shadow-sky-500/20 group-hover:scale-110 transition-transform">
+                        <i id="icon-pure" class="fas fa-play text-sky-400 text-3xl ml-1"></i>
                     </div>
-                    <h3 class="text-3xl font-bold mb-6">Avec PureSpace</h3>
-                    <p class="text-slate-400 text-sm mb-6 leading-relaxed max-w-xs">
-                        Réduction active -35dB. Le vacarme disparaît. La voix de vos collègues arrive filtrée et limpide directement dans vos oreilles.
-                    </p>
+                    <h3 class="text-3xl font-black mb-6">Mode PureSpace</h3>
+                    <p class="text-slate-400 mb-6 max-w-xs mx-auto">Suppression des ondes nocives. Isolation vocale cristalline. Travail serein.</p>
                     
-                    <div class="h-10 flex items-center justify-center mb-4">
-                        <div id="wave-pure" class="wave-animation hidden">
+                    <div class="h-12 flex items-end justify-center gap-1 mb-8">
+                        <div id="wave-container" class="flex items-end gap-1 opacity-0 transition-opacity duration-500">
                             <div class="wave-bar" style="animation-delay: 0.1s"></div>
-                            <div class="wave-bar" style="animation-delay: 0.2s"></div>
                             <div class="wave-bar" style="animation-delay: 0.3s"></div>
-                            <div class="wave-bar" style="animation-delay: 0.4s"></div>
                             <div class="wave-bar" style="animation-delay: 0.5s"></div>
+                            <div class="wave-bar" style="animation-delay: 0.2s"></div>
+                            <div class="wave-bar" style="animation-delay: 0.4s"></div>
                         </div>
                     </div>
 
-                    <div class="mt-auto w-full py-5 rounded-2xl bg-sky-600 text-white font-bold text-[10px] uppercase tracking-[0.2em] shadow-lg shadow-sky-600/20">
-                        Écouter la pureté
-                    </div>
+                    <button class="mt-auto bg-sky-600 hover:bg-sky-500 text-white px-10 py-4 rounded-2xl font-bold uppercase text-[10px] tracking-widest transition-all shadow-xl shadow-sky-600/20">Écouter la pureté</button>
                     <audio id="audio-pure" src="purespace.mp3" preload="auto"></audio>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- TECHNOLOGIE & ARGUMENTS -->
-    <section id="technologie" class="py-32 px-6">
+    <!-- TECHNOLOGIE SECTION -->
+    <section id="technologie" class="py-32 px-6 section-reveal">
         <div class="max-w-7xl mx-auto">
-            <div class="grid md:grid-cols-3 gap-12">
-                <!-- Talkie Walkie -->
-                <div class="space-y-6 group">
-                    <div class="w-16 h-16 bg-sky-100 rounded-[1.5rem] flex items-center justify-center text-sky-600 group-hover:bg-sky-600 group-hover:text-white transition-all duration-500">
-                        <i class="fas fa-walkie-talkie text-2xl"></i>
+            <div class="text-center mb-20">
+                <span class="text-sky-600 font-bold uppercase tracking-widest text-xs">Ingénierie de pointe</span>
+                <h2 class="text-4xl md:text-5xl font-black mt-4 tracking-tighter text-slate-900">Une tech de rupture.</h2>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="p-10 rounded-[3rem] bg-white border border-slate-100 shadow-sm hover:shadow-xl transition-all">
+                    <div class="w-14 h-14 bg-sky-50 text-sky-600 rounded-2xl flex items-center justify-center mb-8">
+                        <i class="fas fa-brain text-2xl"></i>
                     </div>
-                    <h3 class="text-2xl font-bold tracking-tight">Talkie-Walkie Intégré</h3>
-                    <p class="text-slate-500 leading-relaxed font-light">
-                        Discutez avec vos collègues à distance sans retirer votre casque. Communication UHF sécurisée entre casques PureSpace.
+                    <h3 class="text-xl font-bold mb-4">Filtrage Intelligent</h3>
+                    <p class="text-slate-500 text-sm leading-relaxed">
+                        Notre puce DSP identifie instantanément les fréquences de la parole et les amplifie tout en compressant les pics de bruit impulsif (marteaux, chocs).
                     </p>
                 </div>
-                
-                <!-- Filtre Vocal -->
-                <div class="space-y-6 group">
-                    <div class="w-16 h-16 bg-sky-100 rounded-[1.5rem] flex items-center justify-center text-sky-600 group-hover:bg-sky-600 group-hover:text-white transition-all duration-500">
-                        <i class="fas fa-microphone-lines text-2xl"></i>
+
+                <div class="p-10 rounded-[3rem] bg-white border border-slate-100 shadow-sm hover:shadow-xl transition-all">
+                    <div class="w-14 h-14 bg-sky-50 text-sky-600 rounded-2xl flex items-center justify-center mb-8">
+                        <i class="fas fa-tower-broadcast text-2xl"></i>
                     </div>
-                    <h3 class="text-2xl font-bold tracking-tight">Isolation Vocale Tech</h3>
-                    <p class="text-slate-500 leading-relaxed font-light">
-                        Notre électronique embarquée isole les fréquences de la parole pour les laisser passer tout en bloquant les impacts et vibrations.
+                    <h3 class="text-xl font-bold mb-4">Talkie-Walkie UHF</h3>
+                    <p class="text-slate-500 text-sm leading-relaxed">
+                        Protocole de communication intégré fonctionnant sur une fréquence dédiée pour discuter avec vos collègues jusqu'à 200m de distance, sans crier.
                     </p>
                 </div>
-                
-                <!-- Subvention -->
-                <div class="space-y-6 p-10 bg-sky-600 rounded-[2.5rem] text-white shadow-2xl shadow-sky-600/30">
-                    <div class="w-16 h-16 bg-white/20 rounded-[1.5rem] flex items-center justify-center">
-                        <i class="fas fa-euro-sign text-2xl"></i>
+
+                <div class="p-10 rounded-[3rem] bg-white border border-slate-100 shadow-sm hover:shadow-xl transition-all">
+                    <div class="w-14 h-14 bg-sky-50 text-sky-600 rounded-2xl flex items-center justify-center mb-8">
+                        <i class="fas fa-battery-full text-2xl"></i>
                     </div>
-                    <h3 class="text-2xl font-bold tracking-tight">Aide d'État à 70%</h3>
-                    <p class="opacity-90 leading-relaxed font-light">
-                        PureSpace est éligible aux subventions pour la prévention des maladies professionnelles. Réduisez votre investissement de 70%.
+                    <h3 class="text-xl font-bold mb-4">Endurance Totale</h3>
+                    <p class="text-slate-500 text-sm leading-relaxed">
+                        Batterie Lithium-Ion optimisée pour tenir 3 vacations de 8h consécutives. Recharge rapide en USB-C (80% en 45 min).
                     </p>
                 </div>
             </div>
         </div>
     </section>
 
+    <!-- SUBVENTION SECTION -->
+    <section id="subvention" class="py-32 px-6 section-reveal">
+        <div class="max-w-5xl mx-auto bg-sky-600 rounded-[4rem] p-12 md:p-20 text-white text-center relative overflow-hidden shadow-2xl shadow-sky-600/30">
+            <div class="absolute -top-20 -right-20 w-80 h-80 bg-white/10 rounded-full blur-3xl"></div>
+            <div class="relative z-10">
+                <i class="fas fa-landmark text-4xl mb-8 opacity-50"></i>
+                <h2 class="text-4xl md:text-6xl font-black mb-8 leading-tight tracking-tighter">Votre sécurité <br/>financée à 70%.</h2>
+                <p class="text-sky-100 text-lg md:text-xl max-w-2xl mx-auto mb-12 font-medium opacity-90 leading-relaxed">
+                    PureSpace est reconnu comme un équipement de protection innovant. Bénéficiez des aides de l'État pour la prévention des TMS et de la fatigue auditive.
+                </p>
+                <button class="bg-white text-sky-600 px-10 py-5 rounded-2xl font-black uppercase text-xs tracking-widest hover:bg-sky-50 transition-colors shadow-lg shadow-black/10">
+                    Estimer mon aide
+                </button>
+            </div>
+        </div>
+    </section>
+
     <!-- FOOTER -->
-    <footer class="py-24 bg-slate-50 border-t border-slate-200">
+    <footer class="py-24 bg-white border-t border-slate-100">
         <div class="max-w-7xl mx-auto px-6">
             <div class="flex flex-col md:flex-row justify-between items-center gap-12">
-                <div class="flex flex-col items-center md:items-start gap-4">
+                <div class="flex flex-col items-center md:items-start gap-6">
                     <div class="flex items-center gap-3">
                         <div class="w-10 h-10 bg-slate-900 rounded-xl flex items-center justify-center text-white">
                             <i class="fas fa-headset"></i>
                         </div>
-                        <span class="text-2xl font-black tracking-tight uppercase">PureSpace</span>
+                        <span class="text-2xl font-black tracking-tighter uppercase">PureSpace</span>
                     </div>
-                    <p class="text-slate-400 text-sm max-w-xs text-center md:text-left">
-                        Une innovation YDays pour la santé et la sécurité des professionnels du bâtiment et de l'industrie.
+                    <p class="text-slate-400 text-sm max-w-[280px] text-center md:text-left font-medium">
+                        L'innovation bordelaise au service de la sécurité auditive industrielle.
                     </p>
                 </div>
                 
-                <div class="flex flex-col items-center md:items-end gap-6">
-                    <div class="flex gap-8 text-sm font-bold text-slate-400">
-                        <a href="#" class="hover:text-sky-600">LinkedIn</a>
-                        <a href="#" class="hover:text-sky-600">Ynov Bordeaux</a>
-                        <a href="#" class="hover:text-sky-600">Contact</a>
+                <div class="grid grid-cols-2 gap-12 text-sm">
+                    <div class="space-y-4">
+                        <p class="font-black uppercase text-[10px] text-slate-300 tracking-widest">Navigation</p>
+                        <ul class="space-y-3 font-bold text-slate-600">
+                            <li><a href="#concept" class="hover:text-sky-600">Concept</a></li>
+                            <li><a href="#experience" class="hover:text-sky-600">Expérience</a></li>
+                            <li><a href="#technologie" class="hover:text-sky-600">Technologie</a></li>
+                        </ul>
                     </div>
-                    <div class="text-[11px] font-bold text-slate-400 uppercase tracking-widest bg-slate-200/50 px-4 py-2 rounded-full">
-                        YDays Project 2025-2026
+                    <div class="space-y-4">
+                        <p class="font-black uppercase text-[10px] text-slate-300 tracking-widest">Social</p>
+                        <ul class="space-y-3 font-bold text-slate-600">
+                            <li><a href="#" class="hover:text-sky-600">LinkedIn</a></li>
+                            <li><a href="#" class="hover:text-sky-600">Instagram</a></li>
+                            <li><a href="#" class="hover:text-sky-600">Ynov</a></li>
+                        </ul>
                     </div>
                 </div>
             </div>
             
-            <div class="mt-20 pt-8 border-t border-slate-200 text-center text-[10px] text-slate-400 font-medium uppercase tracking-[0.2em]">
-                © PureSpace — Tous droits réservés. L'audition est précieuse.
+            <div class="mt-20 pt-10 border-t border-slate-50 flex flex-col md:flex-row justify-between items-center gap-6">
+                <p class="text-[10px] text-slate-400 font-bold uppercase tracking-widest">© 2026 PureSpace - YDays Bordeaux Campus</p>
+                <div class="flex gap-4 items-center">
+                    <img src="https://www.ynov.com/wp-content/themes/ynov/assets/img/logo-ynov.svg" alt="Ynov" class="h-6 opacity-20 grayscale">
+                </div>
             </div>
         </div>
     </footer>
@@ -280,10 +377,11 @@
             const pureAudio = document.getElementById('audio-pure');
             const cardRaw = document.getElementById('card-raw');
             const cardPure = document.getElementById('card-pure');
-            const wave = document.getElementById('wave-pure');
+            const wave = document.getElementById('wave-container');
             const iconPure = document.getElementById('icon-pure');
+            const iconRaw = document.getElementById('icon-raw');
 
-            // On réinitialise
+            // Reset
             rawAudio.pause();
             pureAudio.pause();
             rawAudio.currentTime = 0;
@@ -291,42 +389,51 @@
             
             cardRaw.classList.remove('active');
             cardPure.classList.remove('active');
-            wave.classList.add('hidden');
-            iconPure.className = "fas fa-play text-sky-400 text-3xl ml-2";
+            wave.classList.add('opacity-0');
+            iconPure.className = "fas fa-play text-sky-400 text-3xl ml-1";
+            iconRaw.className = "fas fa-volume-high text-red-500 text-4xl";
 
             if (type === 'raw') {
                 rawAudio.play();
                 cardRaw.classList.add('active');
+                iconRaw.className = "fas fa-volume-xmark text-red-500 text-4xl animate-pulse";
             } else {
                 pureAudio.play();
                 cardPure.classList.add('active');
-                wave.classList.remove('hidden');
+                wave.classList.remove('opacity-0');
                 iconPure.className = "fas fa-pause text-sky-400 text-3xl";
                 
-                // On remet l'icône de lecture quand le son finit
                 pureAudio.onended = () => {
-                    wave.classList.add('hidden');
-                    iconPure.className = "fas fa-play text-sky-400 text-3xl ml-2";
+                    wave.classList.add('opacity-0');
+                    iconPure.className = "fas fa-play text-sky-400 text-3xl ml-1";
                     cardPure.classList.remove('active');
                 };
             }
         }
 
-        // Effet d'apparition au scroll
-        const scrollObserver = new IntersectionObserver((entries) => {
+        // Système de détection de scroll pour les révélations
+        const observerOptions = {
+            threshold: 0.15
+        };
+
+        const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
-                    entry.target.style.opacity = "1";
-                    entry.target.style.transform = "translateY(0)";
+                    entry.target.classList.add('visible');
                 }
             });
-        }, { threshold: 0.1 });
+        }, observerOptions);
 
-        document.querySelectorAll('section').forEach(section => {
-            section.style.opacity = "0";
-            section.style.transform = "translateY(30px)";
-            section.style.transition = "all 0.8s ease-out";
-            scrollObserver.observe(section);
+        document.querySelectorAll('.section-reveal').forEach(el => observer.observe(el));
+
+        // Smooth scroll pour les ancres
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
         });
     </script>
 </body>

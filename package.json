@@ -1,0 +1,13 @@
+{
+  "name": "purespace-site",
+  "version": "2.0.0",
+  "private": true,
+  "description": "Site de présentation PureSpace (oral YDays Ynov Bordeaux).",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
